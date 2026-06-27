@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(135deg, #1a0533 0%, #0d1b3e 40%, #1a0533 100%);
+  color: #f0e6ff;
+  font-family: 'Nunito', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ===================== STARS BACKGROUND ===================== */
+.stars-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.3); }
+}
+
+/* ===================== FLOATING PARTICLES ===================== */
+.particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float-up linear infinite;
+  z-index: 0;
+}
+@keyframes float-up {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* ===================== CHIBI DOLLS ===================== */
+.chibi-doll {
+  animation: chibi-bob 2.5s ease-in-out infinite;
+  transform-origin: bottom center;
+  display: inline-block;
+}
+.chibi-doll:nth-child(2) { animation-delay: 0.5s; }
+.chibi-doll:nth-child(3) { animation-delay: 1s; }
+.chibi-doll:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes chibi-bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%       { transform: translateY(-8px) rotate(2deg); }
+}
+
+.chibi-spin {
+  animation: chibi-spin 4s ease-in-out infinite;
+}
+@keyframes chibi-spin {
+  0%, 100% { transform: rotate(-5deg) scale(1); }
+  50%       { transform: rotate(5deg) scale(1.05); }
+}
+
+/* ===================== CARD ANIMATIONS ===================== */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.card-enter {
+  animation: card-enter 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ===================== RAIL PULSE ===================== */
+@keyframes rail-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px currentColor; }
+  50%       { opacity: 0.3; box-shadow: none; }
+}
+.rail-pulse { animation: rail-pulse 1.2s ease-in-out infinite; }
+
+/* ===================== GLOW EFFECTS ===================== */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(168,85,247,0.4), 0 0 24px rgba(168,85,247,0.2); }
+  50%       { box-shadow: 0 0 20px rgba(168,85,247,0.7), 0 0 40px rgba(168,85,247,0.35); }
+}
+.glow-pulse { animation: glow-pulse 2s ease-in-out infinite; }
+
+/* ===================== MAGIC SPARKLE ===================== */
+@keyframes sparkle {
+  0%   { transform: scale(0) rotate(0deg); opacity: 0; }
+  50%  { transform: scale(1) rotate(180deg); opacity: 1; }
+  100% { transform: scale(0) rotate(360deg); opacity: 0; }
+}
+.sparkle { animation: sparkle 1.5s ease-in-out infinite; }
+.sparkle:nth-child(2) { animation-delay: 0.5s; }
+.sparkle:nth-child(3) { animation-delay: 1s; }
+
+/* ===================== TYPING DOTS ===================== */
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40%            { transform: translateY(-8px); }
+}
+.dot-bounce { animation: dot-bounce 1.2s ease-in-out infinite; }
+.dot-bounce:nth-child(2) { animation-delay: 0.2s; }
+.dot-bounce:nth-child(3) { animation-delay: 0.4s; }
+
+/* ===================== SCROLLBARS ===================== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.5); border-radius: 3px; }
+
+/* ===================== FOCUS ===================== */
+:focus-visible { outline: 2px solid #a855f7; outline-offset: 2px; }
+
+/* ===================== GLASS CARDS ===================== */
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.glass-strong {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+/* ===================== MAGIC HEADER ===================== */
+@keyframes rainbow-text {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.rainbow-text {
+  background: linear-gradient(270deg, #ff6eb4, #ffb347, #7ee8fa, #a855f7, #ff6eb4);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow-text 6s ease infinite;
+}
+
+/* ===================== REDUCED MOTION ===================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; }
+}

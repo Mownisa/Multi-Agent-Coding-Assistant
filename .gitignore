@@ -1,0 +1,10 @@
+**/node_modules/
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+**/dist/
+**/.env
+**/app.db
+**/runs/
+.DS_Store

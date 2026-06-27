@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=false
+      # ---- Primary LLM: Google Gemini Flash (free tier) ----
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GOOGLE_MODEL_ID=${GOOGLE_MODEL_ID:-gemini-2.5-flash}
+      # ---- Fallback 1: Anthropic Claude Haiku (free tier) ----
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_MODEL_ID=${ANTHROPIC_MODEL_ID:-claude-haiku-4-5-20251001}
+      # ---- Fallback 2: Together AI (free tier) ----
+      - TOGETHER_API_KEY=${TOGETHER_API_KEY:-}
+      - TOGETHER_MODEL_ID=${TOGETHER_MODEL_ID:-meta-llama/Llama-3-8b-chat-hf}
+      # ---- Fallback 3: Ollama (local) ----
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      - OLLAMA_MODEL_ID=${OLLAMA_MODEL_ID:-llama3.1}
+      # ---- Database ----
+      - DATABASE_URL=${DATABASE_URL:-}
+    volumes:
+      - ./backend/runs:/app/runs
+      - ./backend/app.db:/app/app.db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
