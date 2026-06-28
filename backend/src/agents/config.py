@@ -1,4 +1,4 @@
-"""
+﻿"""
 LLM provider chain with automatic fallback.
 
 Order: Google Gemini Flash -> Groq (Llama) -> Anthropic Claude Haiku
@@ -58,19 +58,20 @@ class FallbackLLM:
             try:
                 logger.info("[LLM] Trying provider: %s", name)
                 result = await model.ainvoke(messages, *args, **kwargs)
+
+                if not getattr(result, "content", None) or not str(result.content).strip():
+                    logger.warning("[LLM] Provider '%s' returned empty content, treating as failure", name)
+                    errors.append(f"{name} [EMPTY_RESPONSE]: model returned empty content")
+                    continue
+
                 logger.info("[LLM] Provider '%s' succeeded", name)
                 return result
             except Exception as exc:
-                # Classify the failure so the final error message is actually
-                # useful instead of just showing whichever provider failed last.
                 kind = _classify_error(exc)
                 logger.warning("[LLM] Provider '%s' failed (%s): %s", name, kind, exc)
                 errors.append(f"{name} [{kind}]: {exc}")
                 continue
 
-        # Show every provider's failure, not just the last one - a quota
-        # error on provider 1 and a connection error on provider 3 are very
-        # different problems and both matter for debugging.
         summary = "; ".join(errors) if errors else "no providers were configured"
         raise RuntimeError(f"All LLM providers failed. Details: {summary}")
 
@@ -173,9 +174,6 @@ def get_llm(max_tokens: int = 800, temperature: float = 0.0) -> FallbackLLM:
     else:
         logger.info("[LLM] Skipping together-ai: no TOGETHER_API_KEY configured")
 
-    # Ollama fallback - only added if explicitly enabled, since attempting a
-    # connection to a local server that isn't running just adds a guaranteed
-    # ConnectError to every failure chain and slows down every single request.
     if getattr(config, "use_ollama_fallback", False):
         providers.append((
             "ollama",
@@ -185,7 +183,7 @@ def get_llm(max_tokens: int = 800, temperature: float = 0.0) -> FallbackLLM:
                 model=config.ollama_model_id,
                 max_tokens=max_tokens,
                 temperature=temperature,
-                timeout=10,  # fail fast - local server should respond almost instantly if up
+                timeout=10,
             ),
         ))
     else:
