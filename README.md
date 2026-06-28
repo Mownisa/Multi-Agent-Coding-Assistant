@@ -10,6 +10,12 @@
 [![React](https://img.shields.io/badge/frontend-React%20%2B%20Vite-61DAFB?style=flat-square)](https://vitejs.dev/)
 [![Free Tier Friendly](https://img.shields.io/badge/cost-%240%2Fmo-brightgreen?style=flat-square)]()
 
+<p>
+  <a href="https://multi-agent-coding-assistant-ueq9.vercel.app/"><img src="https://img.shields.io/badge/%F0%9F%8C%90_LIVE_DEMO-blue?style=for-the-badge" alt="Live Demo" /></a>
+  <a href="https://multi-agent-coding-assistant-ueq9.vercel.app/"><img src="https://img.shields.io/badge/VISIT_CHIBI_SQUAD-orange?style=for-the-badge" alt="Visit" /></a>
+  <a href="https://github.com/Mownisa/Multi-Agent-Coding-Assistant"><img src="https://img.shields.io/badge/GITHUB-black?style=for-the-badge&logo=github" alt="GitHub" /></a>
+</p>
+
 </div>
 
 ---
