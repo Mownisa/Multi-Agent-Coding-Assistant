@@ -62,6 +62,7 @@ async def classifier_node(state: State, llm) -> dict:
 
     response = await llm.ainvoke([HumanMessage(content=prompt)])
     logger.info("RAW classifier response: %r", response.content)
+    logger.info("RAW classifier response_metadata: %r", getattr(response, "response_metadata", None))
     action = response.content.strip().lower()
 
     if action not in {"general_chat", "write_code", "review_code", "do_research"}:
